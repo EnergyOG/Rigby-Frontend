@@ -22,8 +22,6 @@ build/
 .env.production.local
 .env.test.local
 
-# Firebase or API configs
-firebase.js
 
 # System files
 .DS_Store
