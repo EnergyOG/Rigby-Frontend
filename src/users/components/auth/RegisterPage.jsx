@@ -34,7 +34,7 @@ const RegisterPage = () => {
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
         const res = await axios.post(
-          "https://rigby-backend-deploy.onrender.com/api/auth/register",
+          "https://rigby-backend-deployment-824i.onrender.com/api/auth/register",
           {
             username: values.userName,
             email: values.email,

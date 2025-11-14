@@ -22,7 +22,7 @@ const LoginPage = () => {
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
         const res = await axios.post(
-          "https://rigby-backend-deploy.onrender.com/api/auth/login",
+          "https://rigby-backend-deployment-824i.onrender.com/api/auth/login",
           values
         );
         console.log("Login success:", res.data);
