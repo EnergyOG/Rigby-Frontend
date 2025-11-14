@@ -8,7 +8,6 @@ import NewestPage from "./NewestPage";
 import PageNotFound from "./PageNotFound";
 import LeftSidebar from "./LeftSidebar";
 import RightSidebar from "./RightSidebar";
-import LoginPage from "./auth/LoginPage";
 
 function TopBar() {
   return (
@@ -70,7 +69,7 @@ function TopBar() {
 
         <div className="w-[50%] border-gray-300 border">
           <Routes>
-            <Route path="/" element={<LoginPage />} />
+            <Route path="/" element={<FeedPage />} />
             <Route path="/live" element={<LivePage />} />
             <Route path="/trending" element={<TrendingPage />} />
             <Route path="/feed" element={<FeedPage />} />
