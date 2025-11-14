@@ -1,10 +1,13 @@
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import axios from "axios";
+
 import googleLogo from "../../../assets/google-logo.svg.png";
 import bgColor from "../../../assets/bg-img6.jpg";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../../../firebase";
+
+// allow cookies if you later add auto-login after register
+axios.defaults.withCredentials = true;
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -16,6 +19,7 @@ const RegisterPage = () => {
       password: "",
       confirmPassword: "",
     },
+
     validationSchema: Yup.object({
       userName: Yup.string().required("User name is required"),
       email: Yup.string().email("Invalid email").required("Email is required"),
@@ -26,29 +30,27 @@ const RegisterPage = () => {
         .oneOf([Yup.ref("password"), null], "Passwords must match")
         .required("Confirm password is required"),
     }),
+
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          values.email,
-          values.password
+        const res = await axios.post(
+          "https://rigby-backend-deploy.onrender.com/api/auth/register",
+          {
+            username: values.userName,
+            email: values.email,
+            password: values.password,
+            confirmPassword: values.confirmPassword,
+          }
         );
 
-        await updateProfile(userCredential.user, {
-          displayName: values.userName,
-        });
+        console.log("Registration success:", res.data);
 
-        navigate("/feed");
+        navigate("/login"); // redirect after successful registration
       } catch (error) {
-        // Handle Firebase registration errors
-        if (error.code === "auth/email-already-in-use") {
-          setErrors({ server: "Email is already in use" });
-        } else if (error.code === "auth/invalid-email") {
-          setErrors({ server: "Invalid email address" });
-        } else if (error.code === "auth/weak-password") {
-          setErrors({ server: "Password is too weak" });
+        if (error.response?.status === 400) {
+          setErrors({ server: error.response.data.message });
         } else {
-          setErrors({ server: error.message });
+          setErrors({ server: "Registration failed, try again later" });
         }
       } finally {
         setSubmitting(false);
@@ -59,25 +61,17 @@ const RegisterPage = () => {
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat px-4"
-      style={{
-        backgroundImage: `url(${bgColor})`,
-      }}
+      style={{ backgroundImage: `url(${bgColor})` }}
     >
-      {/* Main Form Container */}
       <div className="bg-white/90 backdrop-blur-lg shadow-2xl rounded-2xl px-8 py-10 w-full max-w-sm sm:max-w-md mx-auto">
-
-        {/* Title */}
         <h1 className="text-2xl sm:text-3xl font-bold text-center mb-5 text-gray-800">
           <span className="border-b-4 border-red-500 pb-1">REGIS</span>TER
         </h1>
 
-        {/* Registration Form */}
         <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3">
           {/* User Name */}
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium text-gray-700">
-              User Name
-            </label>
+            <label className="mb-1 text-sm font-medium text-gray-700">User Name</label>
             <input
               name="userName"
               type="text"
@@ -88,17 +82,13 @@ const RegisterPage = () => {
               className="border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             {formik.touched.userName && formik.errors.userName && (
-              <p className="text-red-500 text-sm mt-1">
-                {formik.errors.userName}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{formik.errors.userName}</p>
             )}
           </div>
 
           {/* Email */}
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label className="mb-1 text-sm font-medium text-gray-700">Email</label>
             <input
               name="email"
               type="email"
@@ -109,17 +99,13 @@ const RegisterPage = () => {
               className="border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             {formik.touched.email && formik.errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {formik.errors.email}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{formik.errors.email}</p>
             )}
           </div>
 
           {/* Password */}
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium text-gray-700">
-              Password
-            </label>
+            <label className="mb-1 text-sm font-medium text-gray-700">Password</label>
             <input
               name="password"
               type="password"
@@ -130,17 +116,13 @@ const RegisterPage = () => {
               className="border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             {formik.touched.password && formik.errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {formik.errors.password}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{formik.errors.password}</p>
             )}
           </div>
 
           {/* Confirm Password */}
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium text-gray-700">
-              Confirm Password
-            </label>
+            <label className="mb-1 text-sm font-medium text-gray-700">Confirm Password</label>
             <input
               name="confirmPassword"
               type="password"
@@ -151,20 +133,17 @@ const RegisterPage = () => {
               className="border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-              <p className="text-red-500 text-sm mt-1">
-                {formik.errors.confirmPassword}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{formik.errors.confirmPassword}</p>
             )}
           </div>
 
-          {/* Server Errors */}
+          {/* Server Error */}
           {formik.errors.server && (
             <p className="text-red-500 text-center text-sm mt-2">
               {formik.errors.server}
             </p>
           )}
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={formik.isSubmitting}
@@ -176,9 +155,7 @@ const RegisterPage = () => {
 
         {/* Social Signup */}
         <div className="flex flex-col items-center mt-5">
-          <h4 className="text-gray-500 mb-2 text-sm font-medium">
-            Or sign up with:
-          </h4>
+          <h4 className="text-gray-500 mb-2 text-sm font-medium">Or sign up with:</h4>
           <div className="flex justify-center gap-3">
             <button
               type="button"
@@ -207,10 +184,7 @@ const RegisterPage = () => {
         {/* Already have account */}
         <p className="mt-5 text-center text-sm text-gray-700">
           Already have an account?{" "}
-          <Link
-            to="/login"
-            className="text-red-600 hover:underline font-medium"
-          >
+          <Link to="/login" className="text-red-600 hover:underline font-medium">
             Login now
           </Link>
         </p>
