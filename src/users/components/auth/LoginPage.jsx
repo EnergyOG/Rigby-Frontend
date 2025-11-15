@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
 import bgColor from "../../../assets/bg-img6.jpg";
+import googleLogo from "../../../assets/google-logo.svg.png";
 import api from "../../../api/axios";
 
 axios.defaults.withCredentials = true; // ✅ allow sending/receiving cookies
@@ -55,7 +56,9 @@ const LoginPage = () => {
         {/* Email/Password Login Form */}
         <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3">
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium text-gray-700">Email</label>
+            <label className="mb-1 text-sm font-medium text-gray-700">
+              Email
+            </label>
             <input
               name="email"
               type="email"
@@ -71,7 +74,9 @@ const LoginPage = () => {
           </div>
 
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium text-gray-700">Password</label>
+            <label className="mb-1 text-sm font-medium text-gray-700">
+              Password
+            </label>
             <input
               name="password"
               type="password"
@@ -82,12 +87,16 @@ const LoginPage = () => {
               className="border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             {formik.touched.password && formik.errors.password && (
-              <p className="text-red-500 text-sm mt-1">{formik.errors.password}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.password}
+              </p>
             )}
           </div>
 
           {formik.errors.server && (
-            <p className="text-red-500 text-center text-sm mt-2">{formik.errors.server}</p>
+            <p className="text-red-500 text-center text-sm mt-2">
+              {formik.errors.server}
+            </p>
           )}
 
           <button
@@ -99,9 +108,42 @@ const LoginPage = () => {
           </button>
         </form>
 
+        {/* Social Signup */}
+        <div className="flex flex-col items-center mt-5">
+          <h4 className="text-gray-500 mb-2 text-sm font-medium">
+            Or sign up with:
+          </h4>
+          <div className="flex justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => console.log("Google signup clicked")}
+              className="border border-gray-300 w-9 h-9 rounded-full flex justify-center items-center bg-white shadow hover:scale-110 transition-transform"
+            >
+              <img src={googleLogo} alt="Google Logo" className="w-5 h-5" />
+            </button>
+
+            <button
+              type="button"
+              className="w-9 h-9 rounded-full flex justify-center items-center bg-blue-600 shadow hover:scale-110 transition-transform"
+            >
+              <span className="text-white font-bold text-lg">f</span>
+            </button>
+
+            <button
+              type="button"
+              className="w-9 h-9 rounded-full flex justify-center items-center bg-black shadow hover:scale-110 transition-transform"
+            >
+              <span className="text-white font-bold text-lg">X</span>
+            </button>
+          </div>
+        </div>
+
         <p className="mt-5 text-center text-sm text-gray-700">
           Don't have an account?{" "}
-          <Link to="/register" className="text-red-600 hover:underline font-medium">
+          <Link
+            to="/register"
+            className="text-red-600 hover:underline font-medium"
+          >
             Register now
           </Link>
         </p>

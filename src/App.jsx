@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import LoginPage from "./users/components/auth/LoginPage";
 import RegisterPage from "./users/components/auth/RegisterPage";
 import TopBar from "./users/components/TopBar";
-import { Outlet } from "react-router-dom";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
 
 function MainLayout() {
   return (
@@ -21,11 +21,14 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* Protected/Main App Layout */}
-        <Route path="/*" element={<MainLayout />} />
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/*" element={<MainLayout />} />
+        </Route>
       </Routes>
     </div>
   );
 }
 
 export default App;
+ 
