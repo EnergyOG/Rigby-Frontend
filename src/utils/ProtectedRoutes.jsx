@@ -1,21 +1,22 @@
-import { Navigate } from "react-router-dom";
-import api from "../api/axios";
+import { Outlet, Navigate } from "react-router-dom";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import LoadingPage from "../users/components/LoadingPage";
 
-const ProtectedRoute = ({ children }) => {
-  const [loading, setLoading] = useState(true);
-  const [authorized, setAuthorized] = useState(false);
+const ProtectedRoutes = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
-    api.get("/api/auth/check-auth") // backend should return 200 if valid cookie
-      .then(() => setAuthorized(true))
-      .catch(() => setAuthorized(false))
-      .finally(() => setLoading(false));
+    axios.get("https://rigby-backend-deployment-824i.onrender.com/api/auth/", {
+      withCredentials: true
+    })
+    .then(() => setIsAuthenticated(true))
+    .catch(() => setIsAuthenticated(false));
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (isAuthenticated === null) return <LoadingPage />; // prevents instant redirect
 
-  return authorized ? children : <Navigate to="/login" />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
 
-export default ProtectedRoute;
+export default ProtectedRoutes;
