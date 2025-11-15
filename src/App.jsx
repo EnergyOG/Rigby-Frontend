@@ -15,7 +15,7 @@ function MainLayout() {
 
 function App() {
   return (
-    <div className="h-[100vh] bg-gray-400">
+    <div className="h-[100vh]">
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
