@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
 import bgColor from "../../../assets/bg-img6.jpg";
+import api from "../../../api/axios";
 
 axios.defaults.withCredentials = true; // ✅ allow sending/receiving cookies
 
@@ -21,7 +22,7 @@ const LoginPage = () => {
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        const res = await axios.post(
+        const res = await api.post(
           "https://rigby-backend-deployment-824i.onrender.com/api/auth/login",
           values
         );

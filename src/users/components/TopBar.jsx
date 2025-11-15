@@ -9,6 +9,7 @@ import NewestPage from "./NewestPage";
 import PageNotFound from "./PageNotFound";
 import LeftSidebar from "./LeftSidebar";
 import RightSidebar from "./RightSidebar";
+import ProtectedRoutes from "../../utils/ProtectedRoutes";
 
 function TopBar() {
   return (
@@ -63,12 +64,14 @@ function TopBar() {
         {/* MIDDLE CONTENT always visible */}
         <div className="w-full md:w-[50%] border-gray-300 border">
           <Routes>
-            <Route path="/" element={<FeedPage />} />
-            <Route path="/live" element={<LivePage />} />
-            <Route path="/trending" element={<TrendingPage />} />
-            <Route path="/feed" element={<FeedPage />} />
-            <Route path="/newest" element={<NewestPage />} />
-            <Route path="*" element={<PageNotFound />} />
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/" element={<FeedPage />} />
+              <Route path="/live" element={<LivePage />} />
+              <Route path="/trending" element={<TrendingPage />} />
+              <Route path="/feed" element={<FeedPage />} />
+              <Route path="/newest" element={<NewestPage />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Route>
           </Routes>
         </div>
 

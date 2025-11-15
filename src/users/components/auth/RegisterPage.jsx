@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
+import api from "../../../api/axios";
 
 import googleLogo from "../../../assets/google-logo.svg.png";
 import bgColor from "../../../assets/bg-img6.jpg";
@@ -33,7 +34,7 @@ const RegisterPage = () => {
 
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        const res = await axios.post(
+        const res = await api.post(
           "https://rigby-backend-deployment-824i.onrender.com/api/auth/register",
           {
             username: values.userName,
