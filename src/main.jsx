@@ -17,7 +17,7 @@ createRoot(rootElement).render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <App />
+            <App />
         </Provider>
       </QueryClientProvider>
     </BrowserRouter>

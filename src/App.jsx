@@ -2,12 +2,12 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./users/components/auth/LoginPage";
 import RegisterPage from "./users/components/auth/RegisterPage";
 import MainLayout from "./users/components/MainLayout";
-import ProtectedRoute from "./utils/ProtectedRoutes";
 import LivePage from "./users/components/LivePage";
 import TrendingPage from "./users/components/TrendingPage";
 import FeedPage from "./users/components/FeedPage";
 import NewestPage from "./users/components/NewestPage";
 import PageNotFound from "./users/components/PageNotFound";
+import PrivateRoutes from "./utils/PrivateRoutes";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
 
       {/* Protected Routes */}
-      <Route element={<ProtectedRoute />}>
+      <Route element={<PrivateRoutes />}>
         <Route element={<MainLayout />}>
           <Route path="/" element={<FeedPage />} />
           <Route path="/live" element={<LivePage />} />
