@@ -1,22 +1,29 @@
-import { Outlet, Navigate } from "react-router-dom";
-import axios from "axios";
+import { Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
-import LoadingPage from "../users/components/LoadingPage";
+import api from "../api/axios.js";
+import LoadingPage from "../users/components/LoadingPage.jsx"
 
-const ProtectedRoutes = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+const ProtectedRoute = () => {
+  const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
-    axios.get("https://rigby-backend-deployment-824i.onrender.com/api/auth/", {
-      withCredentials: true
-    })
-    .then(() => setIsAuthenticated(true))
-    .catch(() => setIsAuthenticated(false));
+    const verifyUser = async () => {
+      try {
+        await api.get("/auth/verify");
+        setAuthorized(true);
+      } catch (err) {
+        setAuthorized(false);
+        console.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    verifyUser();
   }, []);
 
-  if (isAuthenticated === null) return <LoadingPage />; // prevents instant redirect
-
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+  if (loading) return <LoadingPage />;
+  return authorized ? <Outlet /> : <Navigate to="/login" />;
 };
 
-export default ProtectedRoutes;
+export default ProtectedRoute;

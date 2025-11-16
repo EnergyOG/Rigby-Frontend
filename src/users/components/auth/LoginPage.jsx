@@ -1,17 +1,13 @@
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import axios from "axios";
 import bgColor from "../../../assets/bg-img6.jpg";
 import googleLogo from "../../../assets/google-logo.svg.png";
 import api from "../../../api/axios";
 
-axios.defaults.withCredentials = true; // ✅ allow sending/receiving cookies
-
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  // ✳️ Email/Password login handled by backend (JWT + HttpOnly cookie)
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -23,10 +19,7 @@ const LoginPage = () => {
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        const res = await api.post(
-          "https://rigby-backend-deployment-824i.onrender.com/api/auth/login",
-          values
-        );
+        const res = await api.post("/auth/login", values);
         console.log("Login success:", res.data);
         navigate("/feed"); // redirect after successful login
       } catch (error) {
@@ -53,12 +46,10 @@ const LoginPage = () => {
           <span className="border-b-4 border-red-500 pb-1">LOG</span>IN
         </h1>
 
-        {/* Email/Password Login Form */}
+        {/* Email/Password Form */}
         <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3">
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label className="mb-1 text-sm font-medium text-gray-700">Email</label>
             <input
               name="email"
               type="email"
@@ -74,9 +65,7 @@ const LoginPage = () => {
           </div>
 
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-medium text-gray-700">
-              Password
-            </label>
+            <label className="mb-1 text-sm font-medium text-gray-700">Password</label>
             <input
               name="password"
               type="password"
@@ -87,16 +76,12 @@ const LoginPage = () => {
               className="border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             {formik.touched.password && formik.errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {formik.errors.password}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{formik.errors.password}</p>
             )}
           </div>
 
           {formik.errors.server && (
-            <p className="text-red-500 text-center text-sm mt-2">
-              {formik.errors.server}
-            </p>
+            <p className="text-red-500 text-center text-sm mt-2">{formik.errors.server}</p>
           )}
 
           <button
@@ -108,15 +93,13 @@ const LoginPage = () => {
           </button>
         </form>
 
-        {/* Social Signup */}
+        {/* Social Sign-in */}
         <div className="flex flex-col items-center mt-5">
-          <h4 className="text-gray-500 mb-2 text-sm font-medium">
-            Or sign up with:
-          </h4>
+          <h4 className="text-gray-500 mb-2 text-sm font-medium">Or sign in with:</h4>
           <div className="flex justify-center gap-3">
             <button
               type="button"
-              onClick={() => console.log("Google signup clicked")}
+              onClick={() => console.log("Google login clicked")}
               className="border border-gray-300 w-9 h-9 rounded-full flex justify-center items-center bg-white shadow hover:scale-110 transition-transform"
             >
               <img src={googleLogo} alt="Google Logo" className="w-5 h-5" />
@@ -138,12 +121,10 @@ const LoginPage = () => {
           </div>
         </div>
 
+        {/* Register link */}
         <p className="mt-5 text-center text-sm text-gray-700">
           Don't have an account?{" "}
-          <Link
-            to="/register"
-            className="text-red-600 hover:underline font-medium"
-          >
+          <Link to="/register" className="text-red-600 hover:underline font-medium">
             Register now
           </Link>
         </p>

@@ -1,34 +1,34 @@
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoginPage from "./users/components/auth/LoginPage";
 import RegisterPage from "./users/components/auth/RegisterPage";
-import TopBar from "./users/components/TopBar";
-import ProtectedRoutes from "./utils/ProtectedRoutes";
-
-function MainLayout() {
-  return (
-    <>
-      <TopBar />
-      <Outlet />
-    </>
-  );
-}
+import MainLayout from "./users/components/MainLayout";
+import ProtectedRoute from "./utils/ProtectedRoutes";
+import LivePage from "./users/components/LivePage";
+import TrendingPage from "./users/components/TrendingPage";
+import FeedPage from "./users/components/FeedPage";
+import NewestPage from "./users/components/NewestPage";
+import PageNotFound from "./users/components/PageNotFound";
 
 function App() {
   return (
-    <div className="h-[100vh]">
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
-        {/* Protected Routes */}
-        <Route element={<ProtectedRoutes />}>
-          <Route path="/*" element={<MainLayout />} />
+      {/* Protected Routes */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<FeedPage />} />
+          <Route path="/live" element={<LivePage />} />
+          <Route path="/trending" element={<TrendingPage />} />
+          <Route path="/feed" element={<FeedPage />} />
+          <Route path="/newest" element={<NewestPage />} />
+          <Route path="*" element={<PageNotFound />} />
         </Route>
-      </Routes>
-    </div>
+      </Route>
+    </Routes>
   );
 }
 
 export default App;
- 
