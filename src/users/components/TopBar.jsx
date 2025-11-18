@@ -8,8 +8,8 @@ function TopBar() {
     <div className="bg-white fixed w-full flex flex-col md:flex-row justify-between items-center py-2 px-4 md:px-20 gap-2 shadow z-50">
       {/* Logo & Tagline */}
       <div className="flex items-center gap-2">
-        <img src={logo} alt="logo" className="w-[50px] h-auto border rounded-md p-1 bg-white" />
-        <img src={tagline} alt="tagline" className="w-[100px] h-[36px] border rounded-md p-1 bg-white" />
+        <img src={logo} alt="logo" className="w-[50px] h-auto rounded-md p-1 bg-white" />
+        <img src={tagline} alt="tagline" className="w-[100px] h-[36px] rounded-md p-1 bg-white" />
       </div>
 
       {/* NAV MENU */}

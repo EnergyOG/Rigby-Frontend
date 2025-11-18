@@ -1,10 +1,12 @@
-import { Outlet, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import AuthContext from "../contexts/AuthContext";
+import LoadingPage from "../users/components/LoadingPage";
 
-const PrivateRoutes = () => {
-    let auth = { 
-        "token": false
-    };
-    return auth.token ? <Outlet/> : <Navigate to="/login"/>
+export default function PrivateRoute() {
+  const { authenticated } = useContext(AuthContext);
+
+  if (authenticated === null) return <LoadingPage/>;
+
+  return authenticated ? <Outlet /> : <Navigate to="/login" />;
 }
-
-export default PrivateRoutes;

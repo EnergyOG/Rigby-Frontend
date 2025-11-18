@@ -1,1 +1,8 @@
 @import 'tailwindcss';
+
+.left-d{
+    @apply w-full flex justify-center h-13 items-center hover:font-bold hover:ease-in-out hover:text-red-700 hover:duration-100
+}
+.ld-d{
+    @apply w-40 my-2
+}
