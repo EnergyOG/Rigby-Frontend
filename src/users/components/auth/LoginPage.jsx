@@ -19,7 +19,7 @@ const LoginPage = () => {
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        const res = await api.post("/auth/login", values);
+        const res = await api.post("https://rigby-backend-deployment-824i.onrender.com/auth/login", values);
         console.log("Login success:", res.data);
         navigate("/feed"); // redirect after successful login
       } catch (error) {

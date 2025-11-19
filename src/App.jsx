@@ -27,7 +27,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
-      {/* <Route element={<PrivateRoutes />}> */}
+      <Route element={<PrivateRoutes />}>
         <Route element={<MainLayout />}>
           <Route path="/" element={<FeedPage />} />
           <Route path="/live" element={<LivePage />} />
@@ -45,7 +45,7 @@ function App() {
           <Route path="/profile" element={<Profile/>}/>
           <Route path="*" element={<PageNotFound />} />
         </Route>
-      {/* </Route> */}
+      </Route>
     </Routes>
   );
 }
